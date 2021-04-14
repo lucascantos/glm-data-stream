@@ -14,7 +14,7 @@ def glm_data(event=None, context=None):
     glm_data = fetch_glm_data(file_path)
     payload = []
     for lightning_data in glm_data:
-        coords = lightning_data['lat'],lightning_data['lon']
+        coords = lightning_data['latitude'], lightning_data['longitude']
         if is_brazil(*coords):
             single_payload = make_glm_object(*lightning_data)
             payload.append(single_payload)
