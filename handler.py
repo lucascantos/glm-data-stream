@@ -5,14 +5,17 @@ from src.helpers.helpers import is_brazil
 from src.helpers.helpers import make_response    
 
 def glm_data(event=None, context=None):
+    '''
+    Opens lightning data from GLM and send it to a SNS
+    '''
     print(event)
 
     file_path = event['path']
     glm_data = fetch_glm_data(file_path)
     payload = []
     for lightning_data in glm_data:
-        lat,lon,*_ = lightning_data
-        if is_brazil(lat,lon):
+        coords = lightning_data['lat'],lightning_data['lon']
+        if is_brazil(*coords):
             single_payload = make_glm_object(*lightning_data)
             payload.append(single_payload)
     return make_response(payload)
