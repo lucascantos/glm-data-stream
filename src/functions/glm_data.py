@@ -2,6 +2,7 @@
 import netCDF4 as nc
 import numpy as np
 import json
+import io
 from src.services.s3 import S3
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
@@ -18,7 +19,7 @@ def fetch_glm_data(file_path):
     else:
         s3 = S3(GOES16_BUCKET)
         nc_file = s3.load(file_path)
-        nc_file = nc.Dataset(file_path, 'r', keepweakref=True)
+        nc_file = nc.Dataset('irrelevant_name', memory=nc_file)
     
     glm_info = {
         'lon': {'var_name':'flash_lon'},

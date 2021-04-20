@@ -5,6 +5,8 @@ from src.helpers.helpers import datetime_filter
 from src.helpers.helpers import is_brazil
 from src.functions.glm_data import make_glm_object
 
+
+
 def send_lightnings_sns(glm_data):
     '''
     Save recent lightnings to a buffer file
@@ -31,9 +33,13 @@ def save_buffer(payload):
     '''
     s3 = S3()
     filepath = 'glm-buffer.json'
-    buffer = s3.load(filepath)
+    try:
+        buffer = s3.load(filepath)
+    except:
+        buffer = {'lightnings': []}
     buffer['lightnings'].extend(payload)
-    recent_lightnings = filter(lambda x: datetime_filter(x['datetime'], minutes=10), buffer['lightnings'])
+    unique_lightnings = {f"{lgt['latitude']}{lgt['longitude']}": lgt for lgt in buffer['lightnings']}
+    recent_lightnings = filter(lambda x: datetime_filter(x['datetime'], minutes=10), unique_lightnings.values())
     s3.upload(
         json.dumps({'lightnings': list(recent_lightnings)},indent=4),
         filepath
