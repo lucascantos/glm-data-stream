@@ -2,7 +2,7 @@ import boto3
 import os
 from src.configs.configs import LIGHTNING_SNS
 
-class Sns:
+class SNS:
     def __init__(self, topic=LIGHTNING_SNS):
         '''
         Handler of SNS events and methods

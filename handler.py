@@ -1,9 +1,7 @@
 import json
-from src.functions.glm_data import fetch_glm_data
-from src.functions.glm_data import make_glm_object
-from src.helpers.helpers import is_brazil    
-from src.helpers.helpers import make_response    
-from src.services.sns import Sns
+from src.functions.lightning_stream import save_buffer
+from src.functions.lightning_stream import send_lightnings_sns
+from src.functions.glm_data import fetch_glm_data  
 
 def glm_data(event=None, context=None):
     '''
@@ -12,18 +10,6 @@ def glm_data(event=None, context=None):
     print(event)
     file_path = event['path']
     glm_data = fetch_glm_data(file_path)
-    payload = []
-    sns = Sns()
-    for lightning_data in glm_data:
-        coords = lightning_data['latitude'], lightning_data['longitude']
-        if is_brazil(*coords):
-            single_payload = make_glm_object(*lightning_data)
-            payload.append(single_payload)
-            if len(payload) >= 100:
-                payload = []
-                sns.send(json.dumps({'lightnings': payload}))
-    if payload:
-        sns.send(json.dumps({'lightnings': payload}))
-    
-    # update buffer file. New file every 5min
+    payload = send_lightnings_sns(glm_data)    
+    save_buffer(payload)
 
