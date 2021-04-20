@@ -41,7 +41,7 @@ functions:
   get-redemet-api:
     handler: handler.glm_data
     events:
-      # - sns: ${self:custom.GOES16_SNS}
+      - sns: ${self:custom.GOES16_SNS}
     # onError: arn:aws:sns:${self:custom.ERROR_SNS}
 
 resources:
