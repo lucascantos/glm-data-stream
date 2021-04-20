@@ -2,16 +2,22 @@
 import netCDF4 as nc
 import numpy as np
 import json
+from src.services.s3 import S3
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
+from src.configs.configs import GOES16_BUCKET
 
 def fetch_glm_data(file_path):
     '''
     Retrieve data from netCDF data
     :params file_path: Path to netCDF file
     '''
-
-    with open(file_path) as f:
+    if 'sample' in file_path.split('/'):
+        with open(file_path) as f:
+            nc_file = nc.Dataset(file_path, 'r', keepweakref=True)
+    else:
+        s3 = S3(GOES16_BUCKET)
+        nc_file = s3.load(file_path)
         nc_file = nc.Dataset(file_path, 'r', keepweakref=True)
     
     glm_info = {
