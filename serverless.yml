@@ -40,7 +40,7 @@ functions:
   get-redemet-api:
     handler: handler.glm_data
     events:
-      - sns: ${env:GOES16_SNS_TOPIC}
+      - sns: ${env:GOES16_SNS}
     # onError: arn:aws:sns:${self:custom.ERROR_SNS}
 
 resources:
