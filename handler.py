@@ -1,6 +1,5 @@
 import json
-from src.functions.lightning_stream import save_buffer
-from src.functions.lightning_stream import send_lightnings_sns
+from src.functions.lightning_stream import WeatherLightnings
 from src.functions.glm_data import fetch_glm_data  
 
 def glm_data(event=None, context=None):
@@ -13,6 +12,9 @@ def glm_data(event=None, context=None):
     if product_name != 'GLM-L2-LCFA':
         return
     print(event)
-    glm_data = fetch_glm_data(file_path)
-    payload = send_lightnings_sns(glm_data)    
-    save_buffer(payload)
+
+    lightnings = WeatherLightnings()
+    glm_data = fetch_glm_data(file_path)   
+    
+    lightnings.send_lightnings_sns(glm_data)
+    lightnings.save_buffer()
