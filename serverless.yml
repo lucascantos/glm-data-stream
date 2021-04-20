@@ -42,7 +42,6 @@ functions:
     handler: handler.glm_data
     events:
       - sns: ${self:custom.GOES16_SNS}
-    onError: ${self:custom.ERROR_SNS}
 
 resources:
  Resources:
