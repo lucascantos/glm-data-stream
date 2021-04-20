@@ -42,14 +42,14 @@ def make_glm_object(lightning_data):
     Make an lightning json object.
     :params lightning_data: Lightning data such as lat, lon area and datetime
     '''
-    lat,lon,area,offset = lightning_data
+    lon,lat,area,offset = lightning_data
     now = datetime.utcnow()
-    offset = now.strftime("%Y%m%dT%H%M%S")
+    offset = now.strftime("%Y-%m-%dT%H:%M:%S")
     return {
-        'latitude': lat,
-        'longitude': lon,
-        'area': area,
-        'datetime': datetime,
+        'latitude': float(lat),
+        'longitude': float(lon),
+        'area': float(area),
+        'datetime': offset,
     }
 
 

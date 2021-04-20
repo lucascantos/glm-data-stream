@@ -20,8 +20,7 @@ class WeatherLightnings:
         for lightning_data in glm_data:
             coords = lightning_data['latitude'], lightning_data['longitude']
             if self.is_brazil(*coords):
-                single_payload = make_glm_object(*lightning_data)
-                payload.append(single_payload)
+                payload.append(lightning_data)
                 if len(payload) >= 100:
                     payload = []
                     self.sns.send(json.dumps({'lightnings': payload}))
@@ -36,9 +35,12 @@ class WeatherLightnings:
         :params lat: latitude
         :params lon: longitude
         '''
+        def _is_between(x, a, b):
+            return min(a, b) < x < max(a, b)
         lat_bounds = [-35, 5]
         lon_bounds = [-75, -33]
-        if lat in range(*lat_bounds) and lon in range(*lon_bounds):
+
+        if _is_between(lat, *lat_bounds) and _is_between(lon, *lon_bounds):
             return True
         return False
 

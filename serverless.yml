@@ -40,7 +40,7 @@ functions:
   get-redemet-api:
     handler: handler.glm_data
     events:
-      - sns: ${self:custom.GOES16_SNS}
+      # - sns: ${self:custom.GOES16_SNS}
 
 resources:
  Resources:
