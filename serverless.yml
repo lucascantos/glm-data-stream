@@ -45,7 +45,11 @@ functions:
 
 resources:
  Resources:
-   NewResource:
+   Bucket:
      Type: AWS::S3::Bucket
      Properties:
        BucketName: ${env:BUCKET_NAME}
+   Sns:
+     Type: AWS::S3::SNS
+     Properties:
+       TopicName: ${env:LIGHTNING_SNS}
