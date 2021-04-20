@@ -20,6 +20,7 @@
   "homepage": "https://github.com/lucascantos/glm-data-stream#readme",
   "dependencies": {
     "serverless-dotenv-plugin": "^3.9.0",
+    "serverless-offline": "^6.9.0",
     "serverless-python-requirements": "^5.1.1"
   }
 }
