@@ -7,7 +7,8 @@ plugins:
 custom:
   pythonRequirements:
     dockerizePip: non-linux
-  SNS_ERROR_PATH: ${env:DEFAULT_REGION}:${env:AWS_ID}:${env:SNS_ERROR_TOPIC}
+  ERROR_SNS: arn:aws:${env:DEFAULT_REGION}:${env:AWS_ID}:${env:ERROR_SNS_TOPIC}
+  GOES16_SNS: arn:aws:${env:DEFAULT_REGION}:${env:GOES16_ID}:${env:GOES16_SNS_TOPIC}
 
 provider:
   name: aws
@@ -17,7 +18,6 @@ provider:
   iamRoleStatements:
     - Effect: Allow
       Action:
-        - s3:PutObjectAcl
         - s3:PutObject
         - s3:GetObject
         - s3:HeadObject
@@ -26,27 +26,26 @@ provider:
         - "arn:aws:s3:::${env:BUCKET_NAME}"
         - "arn:aws:s3:::${env:BUCKET_NAME}/*"
 
+    - Effect: Allow
+      Action:
+        - s3:GetObject
+        - s3:HeadObject
+        - s3:ListBucket
+      Resource: 
+        - "arn:aws:s3:::${env:GOES16_BUCKET}"
+        - "arn:aws:s3:::${env:GOES16_BUCKET}/*"
+
 
 functions:
-  # get-redemet-api:
-  #   handler: handler.glm_data
-  #   events:
-  #     - sns: rate(5 minutes)
-  #   onError: arn:aws:sns:${self:custom.SNS_ERROR_PATH}
+  get-redemet-api:
+    handler: handler.glm_data
+    events:
+      - sns: ${self.custom:GOES16_SNS}
+    # onError: arn:aws:sns:${self:custom.ERROR_SNS}
 
-
-
- iamRoleStatements:
-   - Effect: "Allow"
-     Action:
-       - "s3:ListBucket"
-     Resource: { "Fn::Join" : ["", ["arn:aws:s3:::", { "Ref" : "ServerlessDeploymentBucket" } ] ]  }
-   - Effect: "Allow"
-     Action:
-       - "s3:PutObject"
-     Resource:
-       Fn::Join:
-         - ""
-         - - "arn:aws:s3:::"
-           - "Ref" : "ServerlessDeploymentBucket"
-           - "/*"
+resources:
+ Resources:
+   NewResource:
+     Type: AWS::S3::Bucket
+     Properties:
+       BucketName: ${env:BUCKET_NAME}

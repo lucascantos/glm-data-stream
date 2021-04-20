@@ -9,7 +9,6 @@ def glm_data(event=None, context=None):
     Opens lightning data from GLM and send it to a SNS
     '''
     print(event)
-
     file_path = event['path']
     glm_data = fetch_glm_data(file_path)
     payload = []

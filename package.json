@@ -1,0 +1,25 @@
+{
+  "name": "glm-data-stream",
+  "version": "1.0.0",
+  "description": "Data stream using of GOES Lightning mapper (GLM).  Converts the raw NetCDF4 files from National Oceanic and Atmospheric Administration(NOAA)'s repository at Amazon Web Service (AWS) into mor readable JSON files.",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lucascantos/glm-data-stream.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lucascantos/glm-data-stream/issues"
+  },
+  "homepage": "https://github.com/lucascantos/glm-data-stream#readme",
+  "dependencies": {
+    "serverless-dotenv-plugin": "^3.9.0",
+    "serverless-python-requirements": "^5.1.1"
+  }
+}
