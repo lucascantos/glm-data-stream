@@ -8,7 +8,6 @@ plugins:
 custom:
   pythonRequirements:
     dockerizePip: non-linux
-  ERROR_SNS: arn:aws:sns:${env:DEFAULT_REGION}:${env:AWS_ID}:${env:ERROR_SNS_TOPIC}
   GOES16_SNS: arn:aws:sns:${env:DEFAULT_REGION}:${env:GOES16_ID}:${env:GOES16_SNS_TOPIC}
 
 provider:
