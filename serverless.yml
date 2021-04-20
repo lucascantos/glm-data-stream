@@ -50,6 +50,6 @@ resources:
      Properties:
        BucketName: ${env:BUCKET_NAME}
    Sns:
-     Type: AWS::S3::SNS
+     Type: AWS::SNS::Topic
      Properties:
        TopicName: ${env:LIGHTNING_SNS}
