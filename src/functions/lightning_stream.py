@@ -22,8 +22,8 @@ class WeatherLightnings:
             if self.is_brazil(*coords):
                 payload.append(lightning_data)
                 if len(payload) >= 100:
-                    payload = []
                     self.sns.send(json.dumps({'lightnings': payload}), subject='lightnings')
+                    payload = []
         if len(payload)>0:
             self.sns.send(json.dumps({'lightnings': payload}), subject='lightnings')
         self.payload.extend(payload)
