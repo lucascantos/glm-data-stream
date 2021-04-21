@@ -14,7 +14,5 @@ def test_glm_data():
 
     message = json.loads(glm_event['Records'][0]['Sns']['Message'])
     print(message, glm_event['Records'][0]['Sns'])
-    # print(message['Records'][0]['s3']['object']['key'])
     glm_data(glm_event)
-    # assert response['lightnings'] == []
 
