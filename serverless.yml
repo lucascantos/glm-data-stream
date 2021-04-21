@@ -35,6 +35,12 @@ provider:
         - "arn:aws:s3:::${env:GOES16_BUCKET}"
         - "arn:aws:s3:::${env:GOES16_BUCKET}/*"
 
+    - Effect: Allow
+      Action:
+        - sns:Publish
+      Resource: 
+        - "arn:aws:sns:::${env:LIGHTNING_SNS}"
+
 
 functions:
   get-redemet-api:
