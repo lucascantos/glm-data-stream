@@ -13,5 +13,6 @@ def datetime_filter(timestamp, **kwargs):
     from datetime import datetime
     from dateutil.relativedelta import relativedelta
     now = datetime.utcnow()
-    lightning_date = datetime.strftime(timestamp, "%Y%m%dT%H%M%S")
+    lightning_date = datetime.strptime(timestamp, "%Y-%m-%dT%H:%M:%S")
+        
     return now <= lightning_date+relativedelta(**kwargs)
