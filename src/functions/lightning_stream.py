@@ -23,9 +23,9 @@ class WeatherLightnings:
                 payload.append(lightning_data)
                 if len(payload) >= 100:
                     payload = []
-                    self.sns.send(json.dumps({'lightnings': payload}))
+                    self.sns.send(json.dumps({'lightnings': payload}), subject='glm-stream')
         if len(payload)>0:
-            self.sns.send(json.dumps({'lightnings': payload}))
+            self.sns.send(json.dumps({'lightnings': payload}), subject='glm-stream')
         self.payload.extend(payload)
 
     @classmethod
