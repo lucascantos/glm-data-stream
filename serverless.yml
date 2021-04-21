@@ -8,6 +8,7 @@ plugins:
 custom:
   pythonRequirements:
     dockerizePip: non-linux
+  LIGHTNING_SNS: arn:aws:sns:${env:DEFAULT_REGION}:${env:AWS_ID}:${env:LIGHTNING_SNS}
   GOES16_SNS: arn:aws:sns:${env:DEFAULT_REGION}:${env:GOES16_ID}:${env:GOES16_SNS_TOPIC}
 
 provider:
@@ -39,7 +40,7 @@ provider:
       Action:
         - sns:Publish
       Resource: 
-        - "arn:aws:sns:::${env:LIGHTNING_SNS}"
+        - "${self:custom.LIGHTNING_SNS}"
 
 
 functions:
