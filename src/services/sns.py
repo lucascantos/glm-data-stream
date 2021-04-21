@@ -1,14 +1,14 @@
 import boto3
 import os
-from src.configs.configs import LIGHTNING_SNS
+from src.configs.configs import LIGHTNING_SNS, DEFAULT_REGION, AWS_ID
 
 class SNS:
     def __init__(self, topic=LIGHTNING_SNS):
         '''
         Handler of SNS events and methods
         '''
-        self.region = 'us-east-1'
-        self.acc_id = '999740264686'
+        self.region = DEFAULT_REGION
+        self.acc_id = AWS_ID
         self._topic = topic
 
     def set_topic(self, topic):
