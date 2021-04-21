@@ -46,8 +46,8 @@ def make_glm_object(lightning_data):
     now = datetime.utcnow()
     offset = now.strftime("%Y-%m-%dT%H:%M:%S")
     return {
-        'latitude': round(lat,5),
-        'longitude': round(lon,5),
+        'latitude': float(round(lat,5)),
+        'longitude': float(round(lon,5)),
         'area': float(area),
         'datetime': offset,
     }
