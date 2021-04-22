@@ -3,7 +3,6 @@ import json
 from src.services.s3 import S3
 from src.services.sns import SNS
 from src.helpers.helpers import datetime_filter
-from src.functions.glm_data import make_glm_object
 
 class WeatherLightnings:
     def __init__(self):
@@ -19,8 +18,10 @@ class WeatherLightnings:
         '''
         self.payload = glm_data
         data = self.brazilian_lightnings()
-        while payload := list(itertools.islice(data,100)):
+        payload = list(itertools.islice(data,100))
+        while payload:
             self.sns.send(json.dumps({'lightnings': payload}), subject='lightnings')
+            payload = list(itertools.islice(data,100))
 
     def brazilian_lightnings(self):
         '''

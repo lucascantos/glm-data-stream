@@ -48,6 +48,7 @@ functions:
     handler: handler.glm_data
     events:
       - sns: ${self:custom.GOES16_SNS}
+
   glm-buffer:
     handler: handler.glm_buffer
     events:

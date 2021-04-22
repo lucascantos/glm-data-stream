@@ -25,20 +25,26 @@ def glm_buffer(event=None, context=None):
     '''
     Grab lightnings within a date range
     '''
+    print(event)
     from datetime import datetime
     from dateutil.relativedelta import relativedelta
-    end_date = datetime(2021,1,1,12)
-    ini_date = end_date - relativedelta(minutes=5)
-
     lightnings = WeatherLightnings()
     glm = Glm()
+
+    end_date = datetime.utcnow().replace(second=40)
+    ini_date = end_date - relativedelta(minutes=5)
+    product_name = "GLM-L2-LCFA"
+    filepath = f"{product_name}/%Y/%j/%H/OR_{product_name}_G16_s%Y%j%H%M%S"
     deltatime = (end_date - ini_date).total_seconds()
     for i in range(0, int(deltatime), 20):
         file_datetime = ini_date+relativedelta(seconds=i)
-        file_timestamp = file_datetime.strftime('%Y%j%H%M')
-        latest_file = glm.bucket.latest_file(f"OR_GLM-L2-LCFA_G16_s{file_timestamp}")
+        file_timestamp = file_datetime.strftime(filepath)
+        latest_file = glm.bucket.latest_file(file_timestamp)
+        print(latest_file)
+        if not latest_file:
+            continue
         glm_data = glm.fetch_glm_data(latest_file)
-        lightnings.payload.append(glm_data)
+        lightnings.payload.extend(list(glm_data))
 
     payload = lightnings.brazilian_lightnings()
-    make_response(list(payload))
+    return make_response(list(payload))

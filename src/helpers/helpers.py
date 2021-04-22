@@ -5,9 +5,13 @@ def make_response(payload):
     :params payload: list of lightning events
     '''
     import json
-    return json.dumps({
-        'lightnings': payload
-    }, default=str, sort_keys=False, allow_nan=True)
+    return {
+        'statusCode': 200,
+        'body': json.dumps({
+            'lightnings': payload
+        })
+    }
+
 
 
 def datetime_filter(timestamp, **kwargs):
