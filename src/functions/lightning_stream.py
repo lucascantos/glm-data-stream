@@ -1,3 +1,4 @@
+import itertools
 import json
 from src.services.s3 import S3
 from src.services.sns import SNS
@@ -16,17 +17,22 @@ class WeatherLightnings:
         Save recent lightnings to a buffer file
         :params glm_data: data loaded from GLM
         '''
+        self.payload = glm_data
+        data = self.brazilian_lightnings()
+        while payload := list(itertools.islice(data,100)):
+            self.sns.send(json.dumps({'lightnings': payload}), subject='lightnings')
+
+    def brazilian_lightnings(self):
+        '''
+        Save recent lightnings to a buffer file
+        :params glm_data: data loaded from GLM
+        '''
         payload = []
-        for lightning_data in glm_data:
+        for lightning_data in self.payload:
             coords = lightning_data['latitude'], lightning_data['longitude']
             if self.is_brazil(*coords):
                 payload.append(lightning_data)
-                if len(payload) >= 100:
-                    self.sns.send(json.dumps({'lightnings': payload}), subject='lightnings')
-                    payload = []
-        if len(payload)>0:
-            self.sns.send(json.dumps({'lightnings': payload}), subject='lightnings')
-        self.payload.extend(payload)
+        yield from payload
 
     @classmethod
     def is_brazil(cls,lat,lon):
