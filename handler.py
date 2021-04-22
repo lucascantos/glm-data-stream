@@ -1,7 +1,7 @@
 import json
 from src.helpers.helpers import make_response
 from src.functions.lightning_stream import WeatherLightnings
-from src.functions.glm_data import fetch_glm_data  
+from src.functions.glm_data import Glm  
 
 def glm_data(event=None, context=None):
     '''
@@ -15,7 +15,8 @@ def glm_data(event=None, context=None):
     print(event)
 
     lightnings = WeatherLightnings()
-    glm_data = fetch_glm_data(file_path)   
+    glm = Glm()
+    glm_data = glm.fetch_glm_data(file_path)   
     
     lightnings.send_lightnings_sns(glm_data)
     # lightnings.save_buffer()
@@ -30,13 +31,13 @@ def glm_buffer(event=None, context=None):
     ini_date = end_date - relativedelta(minutes=5)
 
     lightnings = WeatherLightnings()
-    s3 = ''
+    glm = Glm()
     deltatime = (end_date - ini_date).total_seconds()
     for i in range(0, int(deltatime), 20):
         file_datetime = ini_date+relativedelta(seconds=i)
         file_timestamp = file_datetime.strftime('%Y%j%H%M')
-        latest_file = s3.latest_file(f"OR_GLM-L2-LCFA_G16_s{file_timestamp}")
-        glm_data = fetch_glm_data(latest_file)
+        latest_file = glm.bucket.latest_file(f"OR_GLM-L2-LCFA_G16_s{file_timestamp}")
+        glm_data = glm.fetch_glm_data(latest_file)
         lightnings.payload.append(glm_data)
 
     payload = lightnings.brazilian_lightnings()
