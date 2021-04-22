@@ -17,4 +17,4 @@ def glm_data(event=None, context=None):
     glm_data = fetch_glm_data(file_path)   
     
     lightnings.send_lightnings_sns(glm_data)
-    lightnings.save_buffer()
+    # lightnings.save_buffer()
