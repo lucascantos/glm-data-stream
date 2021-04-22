@@ -12,8 +12,6 @@ def make_response(payload):
         })
     }
 
-
-
 def datetime_filter(timestamp, **kwargs):
     '''
     Filter data based on date time 

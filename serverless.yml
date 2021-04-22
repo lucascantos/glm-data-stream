@@ -47,7 +47,7 @@ functions:
   glm-data-stream:
     handler: handler.glm_data
     events:
-      - sns: ${self:custom.GOES16_SNS}
+      # - sns: ${self:custom.GOES16_SNS} # Disabled as to not consume much
 
   glm-buffer:
     handler: handler.glm_buffer
